@@ -1,5 +1,3 @@
-import "dart:io";
-
 import "package:calculator/calculator.dart";
 
 void main() {
