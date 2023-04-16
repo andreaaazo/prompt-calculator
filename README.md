@@ -6,11 +6,11 @@
 <h4 align="center">This is a simple calculator program built with Dart that runs in the terminal. It allows you to perform basic arithmetic operations like addition, multiplication, and division.</h4>
 
 <p align="center">
-  <a href="#installation">Installation</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#contributing">Contributing</a> •
-  <a href="#license">License</a> •
-  <a href="#acknowledgments">Acknowledgments</a>
+  <a href="#-installation">Installation</a> •
+  <a href="#-usage">Usage</a> •
+  <a href="#-contributing">Contributing</a> •
+  <a href="#-license">License</a> •
+  <a href="#-acknowledgments">Acknowledgments</a>
 </p>
 
 ## 💻 Installation
@@ -56,6 +56,6 @@ If you want to contribute to the calculator program, you can fork the project fr
 
 This calculator program is licensed under the MIT license. See the [LICENSE](https://github.com/andreaaazo/terminal-calculator/blob/main/LICENSE.txt) file for more information.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 This project was inspired by the simplicity and convenience of terminal-based calculators, and aims to provide a similar experience in the Dart programming language. Special thanks to the Dart community for creating and maintaining such a powerful and versatile language.
