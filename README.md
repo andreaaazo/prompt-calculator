@@ -3,7 +3,7 @@
   <br>
 </h1>
 
-<h4 align="center">This is a simple calculator program built with Dart that runs in the terminal.</h4>
+<h4 align="center">This is a simple calculator program built with Dart that runs in the terminal. It allows you to perform basic arithmetic operations like addition, multiplication, and division.</h4>
 
 <p align="center">
   <a href="#installation">Installation</a> •
@@ -12,8 +12,6 @@
   <a href="#license">License</a> •
   <a href="#acknowledgments">Acknowledgments</a>
 </p>
-
-This is a simple calculator program built with Dart that runs in the terminal. It allows you to perform basic arithmetic operations like addition, multiplication, and division.
 
 ## 💻 Installation
 
