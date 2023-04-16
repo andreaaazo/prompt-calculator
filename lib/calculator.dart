@@ -7,8 +7,8 @@ class Calculator {
     3: "Division",
     4: "Exit",
   };
-  static String? selectedMathOperation;
-  static List<int> numbers = [];
+  String? selectedMathOperation;
+  List<int> numbers = [];
 
   Calculator() {
     print("""
@@ -113,6 +113,9 @@ class Calculator {
 
   void serveForever() {
     while (true) {
+      if (selectedMathOperation == "Exit") {
+        break;
+      }
       getOperator();
       if (selectedMathOperation == "Exit") {
         break;
