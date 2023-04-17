@@ -20,7 +20,7 @@ To install the calculator program, you must have Dart installed on your computer
 Once you have Dart installed, you can clone the project from GitHub using the following command:
 
 ```bash
-git clone https://github.com/your-username/terminal-calculator.git
+git clone https://github.com/andreaaazo/terminal-calculator.git
 ```
 
 Navigate to the project directory using the terminal and run the following command to install the dependencies:
