@@ -1,127 +1,70 @@
-import 'dart:io';
+import 'package:calculator/ui.dart';
+import 'package:calculator/user_input.dart';
+import 'package:calculator/calculator_logic.dart';
 
+/// The Calculator class orchestrates the calculator application, managing user input
+/// and mathematical operations with clarity and performance.
 class Calculator {
-  static final Map<int, String> mathOperations = {
-    1: "Addition",
-    2: "Multiplication",
-    3: "Division",
-    4: "Exit",
-  };
-  String? selectedMathOperation;
-  List<int> numbers = [];
+  double? numOne;
+  double? numTwo;
+  int? operation;
+  double? result;
 
-  Calculator() {
-    print("""
->                                                     ___
->                                                 .-='   )
->                               ---===(##]XXXXXXXXXXX>=- <
->                                                 `-=.___)
-> 
-> ██████╗  █████╗ ██████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗ ██████╗ ██████╗ 
-> ██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██╔═══██╗██╔══██╗
-> ██║  ██║███████║██████╔╝   ██║   ██║   ██║██║     ███████║   ██║   ██║   ██║██████╔╝
-> ██║  ██║██╔══██║██╔══██╗   ██║   ██║   ██║██║     ██╔══██║   ██║   ██║   ██║██╔══██╗
-> ██████╔╝██║  ██║██║  ██║   ██║   ╚██████╔╝███████╗██║  ██║   ██║   ╚██████╔╝██║  ██║
-> ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
->                                                                           
->                                 by @andreaaa.zo                                   
->""");
-  }
+  /// Initiates the calculator application, presenting a warm welcome and handling
+  /// user interactions for mathematical operations and number inputs.
+  ///
+  /// Persistent until the user gracefully decides to exit (option 4).
+  void run() {
+    UI.welcome();
 
-  String? getOperator() {
-    stdout.write("""
-> -------------------------------------------------------------------------------------
-> What kind of operation would you like to perform?
-> 1) Addition (+)
-> 2) Multiplication (*)
-> 3) Division (/)
-> 
-> 4) Exit
-> 
-> Enter your choice:
-\$ """);
-
-    final int? input = int.tryParse(stdin.readLineSync()!);
-
-    // Check if the value inserted is valid
-    if (input == null || input < 0 || input > mathOperations.length) {
-      throw ArgumentError("Insert a valid number");
-    }
-
-    selectedMathOperation = mathOperations[input];
-    print("> $selectedMathOperation selected");
-    return selectedMathOperation;
-  }
-
-  List<num> getNumbers() {
-    stdout.write("""
-> 
-> Insert numbers adding a ',' between each number and the next one: 
-\$ """);
-
-    final List<String> input = (stdin.readLineSync()!).split(',');
-    numbers.clear();
-
-    for (final part in input) {
-      final trimmedPart = part.trim();
-      final int? number = int.tryParse(trimmedPart);
-
-      if (number == null) {
-        throw FormatException("Invalid number: '$trimmedPart'");
+    do {
+      operationSelection();
+      if (operation == 4) {
+        break;
       }
+      numberSelection("one");
+      numberSelection("two");
 
-      numbers.add(number);
-    }
+      result = performOperation();
 
-    print("> Selected numbers: ${numbers.join(' ')}");
-
-    return numbers;
+      UI.result(result!);
+    } while (operation != 4);
   }
 
-  num calculate() {
-    if (selectedMathOperation == null || numbers.isEmpty) {
-      throw FormatException(
-          "Before calculating, please enter the numbers and the operation you would like to perform");
+  /// Facilitates the user's choice of a mathematical operation.
+  ///
+  /// Presents a well-crafted menu, captures, and validates the user's selection.
+  void operationSelection() {
+    UI.selectOperation();
+    operation = UserInput.getAndValidateOperation();
+  }
+
+  /// Guides the user in selecting a numerical value.
+  ///
+  /// Requires a [numberType] parameter specifying the type of number being selected.
+  /// Presents a prompt, captures, and validates the user's input accordingly.
+  void numberSelection(String numberType) {
+    UI.selectNumber(numberType);
+    if (numberType == "one") {
+      numOne = UserInput.getAndValidateNumber();
+    } else if (numberType == "two") {
+      numTwo = UserInput.getAndValidateNumber();
     }
+  }
 
-    switch (selectedMathOperation) {
-      case "Addition":
-        num result = numbers.reduce((a, b) => a + b);
-        print(">\n> Your result: $result\n>");
-        return result;
-
-      case "Multiplication":
-        num result = numbers.reduce((a, b) => a * b);
-        print(">\n> Your result: $result\n>");
-        return result;
-
-      case "Division":
-        if (numbers.length < 2) {
-          throw FormatException("Division requires at least two numbers");
-        }
-        if (numbers.contains(0)) {
-          throw FormatException("Cannot divide by zero");
-        }
-        num result = numbers.reduce((a, b) => a ~/ b.toInt());
-        print(">\n> Your result: $result\n>");
-        return result;
-
+  /// Performs the selected mathematical operation.
+  ///
+  /// Uses the [operation] and operands [numOne] and [numTwo] to calculate the result.
+  double performOperation() {
+    switch (operation) {
+      case 1:
+        return CalculatorLogic.add(numOne!, numTwo!);
+      case 2:
+        return CalculatorLogic.multiply(numOne!, numTwo!);
+      case 3:
+        return CalculatorLogic.divide(numOne!, numTwo!);
       default:
-        throw FormatException("Invalid operation");
-    }
-  }
-
-  void serveForever() {
-    while (true) {
-      if (selectedMathOperation == "Exit") {
-        break;
-      }
-      getOperator();
-      if (selectedMathOperation == "Exit") {
-        break;
-      }
-      getNumbers();
-      calculate();
+        throw Exception("Operator not defined");
     }
   }
 }

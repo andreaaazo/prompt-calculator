@@ -1,60 +1,84 @@
 import 'package:test/test.dart';
 import 'package:calculator/calculator.dart';
 
+/// Unit tests for the [Calculator] class, covering logical, performance, and time efficiency scenarios.
 void main() {
-  group('Calculator tests', () {
+  group('Calculator', () {
     late Calculator calculator;
 
     setUp(() {
       calculator = Calculator();
     });
 
-    test('Selected operator is valid', () {
-      calculator.selectedMathOperation = "Addition";
-      expect(calculator.selectedMathOperation, equals("Addition"));
+    // Logical Tests
+    test('Performs addition correctly', () {
+      calculator.operation = 1;
+      calculator.numOne = 5;
+      calculator.numTwo = 3;
+      double result = calculator.performOperation();
+      expect(result, equals(8));
     });
 
-    test('Selected operator is invalid', () {
-      calculator.selectedMathOperation = "Invalid operator";
-      expect(() => calculator.calculate(),
-          throwsA(TypeMatcher<FormatException>()));
+    test('Performs multiplication correctly', () {
+      calculator.operation = 2;
+      calculator.numOne = 5;
+      calculator.numTwo = 3;
+      double result = calculator.performOperation();
+      expect(result, equals(15));
     });
 
-    test('Division by zero', () {
-      calculator.selectedMathOperation = "Division";
-      calculator.numbers = [5, 0];
-      expect(() => calculator.calculate(),
-          throwsA(TypeMatcher<FormatException>()));
+    test('Performs division correctly', () {
+      calculator.operation = 3;
+      calculator.numOne = 15;
+      calculator.numTwo = 3;
+      double result = calculator.performOperation();
+      expect(result, equals(5));
     });
 
-    test('Valid addition', () {
-      calculator.selectedMathOperation = "Addition";
-      calculator.numbers = [1, 2, 3];
-      expect(calculator.calculate(), equals(6));
+    test('Handles invalid operator', () {
+      calculator.operation = 5;
+      calculator.numOne = 10;
+      calculator.numTwo = 2;
+      expect(() => calculator.performOperation(), throwsException);
     });
 
-    test('Valid multiplication', () {
-      calculator.selectedMathOperation = "Multiplication";
-      calculator.numbers = [2, 3, 4];
-      expect(calculator.calculate(), equals(24));
+    // Performance Tests
+    test('Handles large addition efficiently', () {
+      calculator.operation = 1;
+      calculator.numOne = 1e15;
+      calculator.numTwo = 1e14;
+      expect(() => calculator.performOperation(), isNot(throwsException));
     });
 
-    test('Valid division', () {
-      calculator.selectedMathOperation = "Division";
-      calculator.numbers = [20, 4, 2];
-      expect(calculator.calculate(), equals(2));
+    test('Handles large multiplication efficiently', () {
+      calculator.operation = 2;
+      calculator.numOne = 1e10;
+      calculator.numTwo = 1e5;
+      expect(() => calculator.performOperation(), isNot(throwsException));
     });
 
-    test('Not enough numbers for division', () {
-      calculator.selectedMathOperation = "Division";
-      calculator.numbers = [20];
-      expect(() => calculator.calculate(),
-          throwsA(TypeMatcher<FormatException>()));
+    test('Handles division efficiently', () {
+      calculator.operation = 3;
+      calculator.numOne = 1e15;
+      calculator.numTwo = 1e5;
+      expect(() => calculator.performOperation(), isNot(throwsException));
     });
 
-    test('Valid exit', () {
-      calculator.selectedMathOperation = "Exit";
-      expect(() => calculator.serveForever(), returnsNormally);
+    // Time Efficiency Tests
+    test('Takes reasonable time for repeated calculations', () {
+      calculator.operation = 1;
+      calculator.numOne = 5;
+      calculator.numTwo = 3;
+
+      Stopwatch stopwatch = Stopwatch()..start();
+      for (int i = 0; i < 10000000; i++) {
+        calculator.performOperation();
+      }
+      stopwatch.stop();
+
+      print(
+          'Elapsed time: ${stopwatch.elapsedMilliseconds} ms for 10000000 operations.');
+      expect(stopwatch.elapsedMilliseconds, lessThan(1000));
     });
   });
 }

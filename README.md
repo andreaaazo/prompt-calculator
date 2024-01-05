@@ -46,7 +46,7 @@ This will start the calculator program in the terminal. The program will then pr
 -   `2` for multiplication
 -   `3` for division
 
-After selecting an operation, the program will prompt you to enter the numbers you want to perform calculations with, separated by commas. For example, if you want to add two numbers, you would type `1` and then `1,2`. The program will then output the result `3`.
+After selecting an operation, the program will prompt you to enter the numbers you want to perform calculations with.
 
 ## 🤝 Contributing
 
